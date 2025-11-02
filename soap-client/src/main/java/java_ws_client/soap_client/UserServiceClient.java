@@ -40,7 +40,11 @@ public class UserServiceClient {
             } else {
                 System.out.println("All users: ");
                 for (User u : users) {
-                    System.out.println(u);
+                    System.out.println("\nID: " + u.getId());
+                    System.out.println("Name: " + u.getNome());
+                    System.out.println("E-mail: " + u.getEmail());
+                    System.out.println("Birthdate: " + u.getDtNascimento());
+                    System.out.println("CPF: " + u.getCpf());
                 }
             }
         } catch (Exception e) {
