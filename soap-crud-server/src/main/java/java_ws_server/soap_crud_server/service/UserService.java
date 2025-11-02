@@ -37,16 +37,16 @@ public class UserService {
     public User updateUser(int id, User newUser) {
         User user = this.getUserById(id).get();
         if (this.getUserById(id).isPresent()) {
-            if (user.getNome() != null) {
+            if (newUser.getNome() != null && !newUser.getNome().isBlank()) {
                 user.setNome(newUser.getNome());
             }
-            if (user.getEmail() != null) {
+            if (newUser.getEmail() != null && !newUser.getEmail().isBlank()) {
                 user.setEmail(newUser.getEmail());
             }
-            if (user.getDt_nascimento() != null) {
+            if (newUser.getDt_nascimento() != null && !newUser.getDt_nascimento().isBlank()) {
                 user.setDt_nascimento(newUser.getDt_nascimento());
             }
-            if (user.getCpf() != null) {
+            if (newUser.getCpf() != null && !newUser.getCpf().isBlank()) {
                 user.setCpf(newUser.getCpf());
             }
             return repository.save(user);
