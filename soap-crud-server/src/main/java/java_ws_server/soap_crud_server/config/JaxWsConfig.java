@@ -15,6 +15,6 @@ public class JaxWsConfig {
 
     @Bean
     public Endpoint userServiceEndpoint(){
-        return Endpoint.publish("http://localhost:8080/ws/users", userEndpoint);
+        return Endpoint.publish("http://localhost:8081/ws/users", userEndpoint);
     }
 }
