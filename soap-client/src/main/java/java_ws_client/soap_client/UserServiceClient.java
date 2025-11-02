@@ -18,31 +18,67 @@ public class UserServiceClient {
             Service service = Service.create(wsdlURL, SERVICE_NAME);
             this.userPort = service.getPort(UserEndpoint.class);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error initializing SOAP Cliente: " + e.getMessage(), e);
         }
     }
-    public void createUser(User user){
-        User created = userPort.createUser(user);
-        System.out.println("User, created: " + created);
-    }
-    public void listUsers(){
-        List<User> users = userPort.listUsers();
-        System.out.println("All users: ");
-        for(User u : users){
-            System.out.println(u);
+
+    public void createUser(User user) {
+        try {
+            User created = userPort.createUser(user);
+            System.out.println("User, " + created.getNome() + ", successfully created");
+        } catch (Exception e) {
+            System.err.println("Fail created user: " + e.getMessage());
         }
     }
-    public void getUserById(int id){
-        User user = userPort.getUserById(id);
-        System.out.println("User found: " + user);
+
+    public void listUsers() {
+        try {
+            List<User> users = userPort.listUsers();
+            if (users.isEmpty()) {
+                System.err.println("No users found");
+
+            } else {
+                System.out.println("All users: ");
+                for (User u : users) {
+                    System.out.println(u);
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Failure to list users. " + e.getMessage());
+        }
     }
-    public void updateUser(int id, User user){
-        User update = userPort.updateUser(id, user);
-        System.out.println("User update: " + update);
+
+    public void getUserById(int id) {
+        try {
+            User user = userPort.getUserById(id);
+            if (user != null) {
+                System.out.println("User found: " + user.getNome() + "( " + user.getEmail() + ", " + user.getDtNascimento() + ")");
+            } else {
+                System.out.println("User not found");
+            }
+        } catch (Exception e) {
+            System.err.println("Failure to find users: " + e.getMessage());
+        }
     }
-    public void deleteUser(int id){
-        String result = userPort.deleteUser(id);
-        System.out.println(result);
+
+    public void updateUser(int id, User user) {
+        try{
+            User updated = userPort.updateUser(id, user);
+            System.out.println("User updated: " + updated.getNome());
+        } catch (Exception e) {
+            System.err.println("Failure to update users: " + e.getMessage());
+        }
+
+    }
+
+    public void deleteUser(int id) {
+        try{
+            String result = userPort.deleteUser(id);
+            System.out.println(result);
+        } catch (Exception e) {
+            System.err.println("Failure to delete users: " + e.getMessage());
+        }
+
     }
 
 }
