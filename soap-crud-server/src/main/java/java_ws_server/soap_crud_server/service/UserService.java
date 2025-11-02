@@ -17,6 +17,12 @@ public class UserService {
     }
 
     public User createUser(User user) {
+        if (user.getNome() == null || user.getNome().isBlank()) {
+            throw new IllegalArgumentException("User name cannot be empty");
+        }
+        if (user.getCpf() == null || user.getCpf().isBlank()) {
+            throw new IllegalArgumentException("User CPF cannot be empty");
+        }
         return repository.save(user);
     }
 
@@ -31,10 +37,18 @@ public class UserService {
     public User updateUser(int id, User newUser) {
         User user = this.getUserById(id).get();
         if (this.getUserById(id).isPresent()) {
-            user.setNome(newUser.getNome());
-            user.setEmail(newUser.getEmail());
-            user.setDt_nascimento(newUser.getDt_nascimento());
-            user.setCpf(newUser.getCpf());
+            if (user.getNome() != null) {
+                user.setNome(newUser.getNome());
+            }
+            if (user.getEmail() != null) {
+                user.setEmail(newUser.getEmail());
+            }
+            if (user.getDt_nascimento() != null) {
+                user.setDt_nascimento(newUser.getDt_nascimento());
+            }
+            if (user.getCpf() != null) {
+                user.setCpf(newUser.getCpf());
+            }
             return repository.save(user);
         } else {
             throw new NoSuchElementException("Update not performed, user not found by ID");
@@ -42,7 +56,9 @@ public class UserService {
     }
 
     public void deleteUser(int id) {
+        if (!repository.existsById(id)) {
+            throw new IllegalArgumentException("User not found by ID");
+        }
         repository.deleteById(id);
     }
-
 }
